@@ -2,10 +2,10 @@
   "name": "telegrambot",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "indexbot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "dev": "nodemon indexbot.js"
   },
   "author": "Arseniy Pomazkov",
   "license": "ISC",
