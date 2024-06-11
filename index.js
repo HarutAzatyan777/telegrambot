@@ -30,7 +30,7 @@ bot.command('start', async (ctx) => {
   await ctx.reply(
     'Привет! Я - Frontend Interview Prep Bot 🤖 \nЯ помогу тебе подготовиться к интервью по фронтенду',
   );
-  await ctx.reply('С чего начнем? Выбери тему вопроса в меню 👇', {
+  await ctx.replyWithAnimation('https://t.me/CodeRedHub/14', {
     reply_markup: startKeyboard,
   });
 });
@@ -77,12 +77,14 @@ bot.hears(
   },
 );
 
+
 bot.hears('Мой прогресс', async (ctx) => {
   const progress = getUserProgress(ctx.from.id);
   await ctx.reply(`Ваш прогресс:\nВерные ответы: ${progress.correct}\nНеверные ответы: ${progress.incorrect}`);
 });
 
 bot.hears('Таблица лидеров', async (ctx) => {
+  
   const leaderboard = getLeaderboard();
   let leaderboardText = 'Таблица лидеров:\n';
   leaderboard.forEach((user, index) => {
