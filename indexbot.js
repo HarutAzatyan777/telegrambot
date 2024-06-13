@@ -21,22 +21,25 @@ bot.command('start', async (ctx) => {
     .row()
     .text('ReactNative')
     .row()
-    .text('Случайный вопрос')
+    .text('պատահական հարց')
     .row()
-    .text('Мой прогресс')
+    .text('Իմ առաջընթացը')
     .row()
-    .text('Таблица лидеров')
+    .text('Առաջատար աղյուսակ')
     .resized();
   await ctx.reply(
-    'Привет! Я - Frontend Interview Prep Bot 🤖 \nЯ помогу тебе подготовиться к интервью по фронтенду',
+    'Ողջույն: Ես՝ JSInstructorBot եմ    🤖 \n Ես այստեղ եմ, որպեսզի օգնենք քեզ կատարելագործել JavaScript-ի գիտելիքներդ:',
   );
   await ctx.replyWithAnimation('https://t.me/CodeRedHub/14', {
     reply_markup: startKeyboard,
   });
+  await ctx.reply(
+    'Ցանկին կարող եք Ծանոթանալ այս կոճակով          👇',
+  );
 });
 
 bot.hears(
-  ['HTML', 'CSS', 'JavaScript', 'React', 'ReactNative', 'Случайный вопрос'],
+  ['HTML', 'CSS', 'JavaScript', 'React', 'ReactNative', 'պատահական հարց'],
   async (ctx) => {
     const topic = ctx.message.text.toLowerCase();
 
@@ -60,7 +63,7 @@ bot.hears(
         inlineKeyboard = InlineKeyboard.from(buttonRows);
       } else {
         inlineKeyboard = new InlineKeyboard().text(
-          'Узнать ответ',
+          'Իմանալ Պատասխանը',
           JSON.stringify({
             type: questionTopic,
             questionId: question.id,
@@ -72,23 +75,23 @@ bot.hears(
         reply_markup: inlineKeyboard,
       });
     } catch (error) {
-      await ctx.reply(`Ошибка: ${error.message}`);
+      await ctx.reply(`Սխալ: ${error.message}`);
     }
   },
 );
 
 
-bot.hears('Мой прогресс', async (ctx) => {
+bot.hears('Իմ առաջընթացը', async (ctx) => {
   const progress = getUserProgress(ctx.from.id);
-  await ctx.reply(`Ваш прогресс:\nВерные ответы: ${progress.correct}\nНеверные ответы: ${progress.incorrect}`);
+  await ctx.reply(`Ձեր առաջընթացը:\nВерные ответы: ${progress.correct}\nНеверные ответы: ${progress.incorrect}`);
 });
 
-bot.hears('Таблица лидеров', async (ctx) => {
+bot.hears('Առաջատար աղյուսակ', async (ctx) => {
   
   const leaderboard = getLeaderboard();
-  let leaderboardText = 'Таблица лидеров:\n';
+  let leaderboardText = 'Առաջատար աղյուսակ:\n';
   leaderboard.forEach((user, index) => {
-    leaderboardText += `${index + 1}. ${user.username}: ${user.correct} верных ответов\n`;
+    leaderboardText += `${index + 1}. ${user.username}: ${user.correct} Ճիշտ պատասխան\n`;
   });
   await ctx.reply(leaderboardText);
 });
@@ -108,7 +111,7 @@ bot.on('callback_query:data', async (ctx) => {
   }
 
   if (callbackData.isCorrect) {
-    await ctx.reply('Верно ✅');
+    await ctx.reply('Ճիշտ է ✅');
     updateUserProgress(userId, true);
     await ctx.answerCallbackQuery();
     return;
@@ -118,7 +121,7 @@ bot.on('callback_query:data', async (ctx) => {
     callbackData.type.split('-')[0],
     callbackData.questionId,
   );
-  await ctx.reply(`Неверно ❌ Правильный ответ: ${answer}`);
+  await ctx.reply(`Սխալ է ❌ ճիշտ Պատասխան: ${answer}`);
   updateUserProgress(userId, false);
   await ctx.answerCallbackQuery();
 });
