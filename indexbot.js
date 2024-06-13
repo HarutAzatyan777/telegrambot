@@ -11,31 +11,41 @@ const { getUserProgress, updateUserProgress, getLeaderboard } = require('./userP
 
 const bot = new Bot(process.env.BOT_API_KEY);
 
+const startKeyboard = new Keyboard()
+  .text('/start')
+  .row()
+  .text('HTML')
+  .text('CSS')
+  .row()
+  .text('JavaScript')
+  .text('React')
+  .row()
+  .text('ReactNative')
+  .row()
+  .text('պատահական հարց')
+  .row()
+  .text('Իմ առաջընթացը')
+  .row()
+  .text('Առաջատար աղյուսակ')
+  .resized();
+
 bot.command('start', async (ctx) => {
-  const startKeyboard = new Keyboard()
-    .text('HTML')
-    .text('CSS')
-    .row()
-    .text('JavaScript')
-    .text('React')
-    .row()
-    .text('ReactNative')
-    .row()
-    .text('պատահական հարց')
-    .row()
-    .text('Իմ առաջընթացը')
-    .row()
-    .text('Առաջատար աղյուսակ')
-    .resized();
   await ctx.reply(
     'Ողջույն: Ես՝ JSInstructorBot եմ    🤖 \n Ես այստեղ եմ, որպեսզի օգնենք քեզ կատարելագործել JavaScript-ի գիտելիքներդ:',
   );
-  await ctx.replyWithAnimation('https://t.me/CodeRedHub/14', {
+  await ctx.replyWithAnimation('https://t.me/CodeRedHub/18', {
     reply_markup: startKeyboard,
   });
+
+  await ctx.reply(
+    '👉 Check out our latest content for more web development tips and tricks! 💻✨ [link](https://t.me/javascripttricktips)',
+    { parse_mode: 'Markdown' }
+  );
+  
   await ctx.reply(
     'Ցանկին կարող եք Ծանոթանալ այս կոճակով          👇',
   );
+
 });
 
 bot.hears(
@@ -80,14 +90,12 @@ bot.hears(
   },
 );
 
-
 bot.hears('Իմ առաջընթացը', async (ctx) => {
   const progress = getUserProgress(ctx.from.id);
   await ctx.reply(`Ձեր առաջընթացը:\nВерные ответы: ${progress.correct}\nНеверные ответы: ${progress.incorrect}`);
 });
 
 bot.hears('Առաջատար աղյուսակ', async (ctx) => {
-  
   const leaderboard = getLeaderboard();
   let leaderboardText = 'Առաջատար աղյուսակ:\n';
   leaderboard.forEach((user, index) => {
